@@ -7,11 +7,12 @@
 **Requirements:**
 
 - Python
+- CoinMarketCap API (https://pro.coinmarketcap.com/account/)
 
 **How to start the project**
 
-1. Rename the .env.example to .env
+1. Rename the ".env.example" to ".env"
 2. Add "apiKey = <api key>"
-3. Run the file by typing _python cmdAPI.py_ in the terminal
+3. Run the file by typing "_python cmdAPI.py_" in the terminal
 
 **Written by: Pontus Henriksson - https://github.com/pontushenriksson**
