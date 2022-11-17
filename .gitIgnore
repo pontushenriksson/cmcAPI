@@ -1,2 +1,3 @@
+# Specifies which files github should ignore and don't publish to the website. *Never* remove the .gitIgnore file, it is used to prevent the leak of the environment variables!
 .env
 response.json
