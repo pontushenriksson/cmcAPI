@@ -9,7 +9,14 @@ load_dotenv()
 
 # The API key entered in the ".env" file will get loaded and be saved as the "apiKey" variable.
 apiKey = os.getenv('apiKey')
-url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=XMR,ETH,DOGE,BTC,RVN'
+tokens = [ "BTC","DOGE", "ETC", "ETH", "RVN", "XMR" ]
+link = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol='
+suffix = ""
+number = 0
+for i in range(len(tokens)):
+  suffix += tokens[number]+','
+  number += 1
+url = link+suffix
 
 # Enter the parameters and routing information that the API needs to receive a data request.
 parameters = {
@@ -38,74 +45,27 @@ with open('response.json', 'w') as json_file:
 with open("response.json", "r") as f:
   my_dict = json.load(f)
 
-# Creating easier-to-read variable names so you don't need to use the relative JSON data path.
-BTC_name = my_dict["data"]["BTC"]["name"]
-BTC_symbol = my_dict["data"]["BTC"]["symbol"]
-BTC_price = my_dict["data"]["BTC"]["quote"]["USD"]["price"]
-BTC_cmcRank = my_dict["data"]["BTC"]["cmc_rank"]
-BTC_market_dominance = my_dict["data"]["BTC"]["quote"]["USD"]["market_cap_dominance"]
+# Make everything a function
+def runTokens():
+  number = 0;
+  for i in range(len(tokens)):
+    print(tokens[number])
+    name = my_dict["data"][tokens[number]]["name"]
+    symbol = my_dict["data"][tokens[number]]["symbol"]
+    price = my_dict["data"][tokens[number]]["quote"]["USD"]["price"]
+    cmc_rank = my_dict["data"][tokens[number]]["cmc_rank"]
+    market_dominance = my_dict["data"][tokens[number]]["quote"]["USD"]["market_cap_dominance"]
+    number += 1
 
-DOGE_name = my_dict["data"]["DOGE"]["name"]
-DOGE_symbol = my_dict["data"]["DOGE"]["symbol"]
-DOGE_price = my_dict["data"]["DOGE"]["quote"]["USD"]["price"]
-DOGE_cmcRank = my_dict["data"]["DOGE"]["cmc_rank"]
-DOGE_market_dominance = my_dict["data"]["DOGE"]["quote"]["USD"]["market_cap_dominance"]
+    # Prints the specific data we chose from the response. I have handpicked my idea of the 5 most important data points: name, symbol, price, rank, and market dominance, and use the earlier specified variables to print that data.
+    print("\033[34mToken name: \033[0m", name)
+    print("\033[34mToken symbol: \033[0m", symbol)
+    print("\033[34mCurrent price: \033[0m", price,"$ USD per token")
+    print("\033[34mCurrent cmc rank: \033[0m", cmc_rank)
+    print("\033[34mCurrent market dominance: \033[0m", market_dominance,"%")
+    if (number!=len(tokens)):
+      print("\033[34m---\033[0m")
 
-ETH_name = my_dict["data"]["ETH"]["name"]
-ETH_symbol = my_dict["data"]["ETH"]["symbol"]
-ETH_price = my_dict["data"]["ETH"]["quote"]["USD"]["price"]
-ETH_cmcRank = my_dict["data"]["ETH"]["cmc_rank"]
-ETH_market_dominance = my_dict["data"]["ETH"]["quote"]["USD"]["market_cap_dominance"]
-
-RVN_name = my_dict["data"]["RVN"]["name"]
-RVN_symbol = my_dict["data"]["RVN"]["symbol"]
-RVN_price = my_dict["data"]["RVN"]["quote"]["USD"]["price"]
-RVN_cmcRank = my_dict["data"]["RVN"]["cmc_rank"]
-RVN_market_dominance = my_dict["data"]["RVN"]["quote"]["USD"]["market_cap_dominance"]
-
-XMR_name = my_dict["data"]["XMR"]["name"]
-XMR_symbol = my_dict["data"]["XMR"]["symbol"]
-XMR_price = my_dict["data"]["XMR"]["quote"]["USD"]["price"]
-XMR_cmcRank = my_dict["data"]["XMR"]["cmc_rank"]
-XMR_market_dominance = my_dict["data"]["XMR"]["quote"]["USD"]["market_cap_dominance"]
-
-# Prints the specific data we chose from the response. I have handpicked my idea of the 5 most important data points: name, symbol, price, rank, and market dominance, and use the earlier specified variables to print that data.
 print("\033[34m############## Specific data ##############\033[0m")
-print("\033[34mToken name: \033[0m", BTC_name)
-print("\033[34mToken symbol: \033[0m", BTC_symbol)
-print("\033[34mCurrent price: \033[0m", BTC_price,"$ USD per token")
-print("\033[34mCurrent cmc rank: \033[0m", BTC_cmcRank)
-print("\033[34mCurrent market dominance: \033[0m", BTC_market_dominance,"%")
-
-print("\033[34m---\033[0m")
-
-print("\033[34mToken name: \033[0m", DOGE_name)
-print("\033[34mToken symbol: \033[0m", DOGE_symbol)
-print("\033[34mCurrent price: \033[0m", DOGE_price,"$ USD per token")
-print("\033[34mCurrent cmc rank: \033[0m", DOGE_cmcRank)
-print("\033[34mCurrent market dominance: \033[0m", DOGE_market_dominance,"%")
-
-print("\033[34m---\033[0m")
-
-print("\033[34mToken name: \033[0m", ETH_name)
-print("\033[34mToken symbol: \033[0m", ETH_symbol)
-print("\033[34mCurrent price: \033[0m", ETH_price,"$ USD per token")
-print("\033[34mCurrent cmc rank: \033[0m", ETH_cmcRank)
-print("\033[34mCurrent market dominance: \033[0m", ETH_market_dominance,"%")
-
-print("\033[34m---\033[0m")
-
-print("\033[34mToken name: \033[0m", RVN_name)
-print("\033[34mToken symbol: \033[0m", RVN_symbol)
-print("\033[34mCurrent price: \033[0m", RVN_price,"$ USD per token")
-print("\033[34mCurrent cmc rank: \033[0m", RVN_cmcRank)
-print("\033[34mCurrent market dominance: \033[0m", RVN_market_dominance,"%")
-
-print("\033[34m---\033[0m")
-
-print("\033[34mToken name: \033[0m", XMR_name)
-print("\033[34mToken symbol: \033[0m", XMR_symbol)
-print("\033[34mCurrent price: \033[0m", XMR_price,"$ USD per token")
-print("\033[34mCurrent cmc rank: \033[0m", XMR_cmcRank)
-print("\033[34mCurrent market dominance: \033[0m", XMR_market_dominance,"%")
+runTokens()
 print("\033[34m###########################################\033[0m")
