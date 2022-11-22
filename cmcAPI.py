@@ -9,7 +9,12 @@ load_dotenv()
 
 # The API key entered in the ".env" file will get loaded and be saved as the "apiKey" variable.
 apiKey = os.getenv('apiKey')
-tokens = [ "BTC","DOGE", "ETC", "ETH", "RVN", "XMR" ]
+tokens = os.getenv('tokens')
+tokens = tokens.split(' ')
+tokens.sort()
+author = os.getenv('author')
+version = os.getenv('codeVersion')
+githubRepo = os.getenv('githubRepo')
 link = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol='
 suffix = ""
 number = 0
@@ -52,7 +57,10 @@ def runTokens():
     print(tokens[number])
     name = my_dict["data"][tokens[number]]["name"]
     symbol = my_dict["data"][tokens[number]]["symbol"]
+    cmc_id = my_dict["data"][tokens[number]]["id"]
     price = my_dict["data"][tokens[number]]["quote"]["USD"]["price"]
+    max_supply = my_dict["data"][tokens[number]]["max_supply"]
+    circulating_supply = my_dict["data"][tokens[number]]["circulating_supply"]
     cmc_rank = my_dict["data"][tokens[number]]["cmc_rank"]
     market_dominance = my_dict["data"][tokens[number]]["quote"]["USD"]["market_cap_dominance"]
     number += 1
@@ -60,7 +68,10 @@ def runTokens():
     # Prints the specific data we chose from the response. I have handpicked my idea of the 5 most important data points: name, symbol, price, rank, and market dominance, and use the earlier specified variables to print that data.
     print("\033[34mToken name: \033[0m", name)
     print("\033[34mToken symbol: \033[0m", symbol)
+    print("\033[34mCMC id: \033[0m", cmc_id)
     print("\033[34mCurrent price: \033[0m", price,"$ USD per token")
+    print("\033[34mMax supply (max number of tokens): \033[0m", max_supply)
+    print("\033[34mCirculating supply (number of tokens that exist): \033[0m", circulating_supply)
     print("\033[34mCurrent cmc rank: \033[0m", cmc_rank)
     print("\033[34mCurrent market dominance: \033[0m", market_dominance,"%")
     if (number!=len(tokens)):
@@ -69,3 +80,9 @@ def runTokens():
 print("\033[34m############## Specific data ##############\033[0m")
 runTokens()
 print("\033[34m###########################################\033[0m")
+
+print("\033[31m############## Information ##############\033[0m")
+print("\033[31mAuthor: \033[0m" + author)
+print("\033[31mCode version: \033[0m" + version)
+print("\033[31mGithub Repo: \033[0m" + githubRepo)
+print("\033[31m#########################################\033[0m")
